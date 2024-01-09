@@ -13,7 +13,7 @@ namespace ContactOrganizer.Controllers
 
             return new GroupDTO();
 
-        };
+        }
 
     }
 }
