@@ -1,6 +1,9 @@
-﻿namespace ContactOrganizer.Controllers
+﻿using Microsoft.AspNetCore.Mvc;
+
+
+namespace ContactOrganizer.Controllers
 {
-    public class ContactController
+    public class ContactController : ControllerBase
     {
     }
 }

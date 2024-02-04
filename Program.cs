@@ -1,8 +1,10 @@
 using ContactOrganizer.Models;
 using ContactOrganizer.Repository;
+using ContactOrganizer.Services;
+using ContactOrganizer.Services.Interfaces;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
-
+using PersonManager.Services.Interfaces;
 
 namespace ContactOrganizer
 {
@@ -14,11 +16,25 @@ namespace ContactOrganizer
 
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
+           
             builder.Services.AddControllersWithViews();
 
+            
+            builder.Services.AddSingleton<IAddressRepository, AddressRepository>();
+            builder.Services.AddScoped<IAddressService, AddressService>();
+
+            builder.Services.AddSingleton<IContactRepository, ContactRepository>();
+            builder.Services.AddScoped<IContactService, ContactService>();
+
+            builder.Services.AddSingleton<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<IUserService, UserService>();
+
+            builder.Services.AddSingleton<IPersonRepository, PersonRepository>();
+            builder.Services.AddScoped<IPersonService, PersonService>();
+            
             var app = builder.Build();
 
+  
             //var db = new MongoDbContext();
 
             //// Exemplos de usuários

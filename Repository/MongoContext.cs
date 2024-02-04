@@ -3,13 +3,13 @@ using MongoDB.Driver;
 
 namespace ContactOrganizer.Repository
 {
-    public class MongoDbContext
+    public class MongoContext
     {
 
 
         private readonly IMongoDatabase _database;
 
-        public MongoDbContext()
+        public MongoContext()
         {
 
             try
@@ -34,7 +34,7 @@ namespace ContactOrganizer.Repository
         // Método para acessar diferentes coleções
         public IMongoCollection<T> GetCollection<T>(string collectionName)
         {
-            //CreateCollectionIfNotExists(collectionName); // Se a collection ñao existir, criar uma
+            CreateCollectionIfNotExists(collectionName); // Se a collection ñao existir, criar uma
 
             // var categoriesCollection = mongoContext.GetCollection<BsonDocument>("Category");
             // //var catDes = BsonSerializer.Deserialize<Category>(document);
