@@ -27,7 +27,7 @@ Person-Manager is an educational project aimed at creating a simple full-stack w
 
 To set up the project locally, follow these steps:
 
-1.[ Clone the repository: `git clone https://github.com/GabrielDineckTremarin/person-manager.git` <br>
+1. Clone the repository: `git clone https://github.com/GabrielDineckTremarin/person-manager.git` <br>
 2. Navigate to the project directory: `cd person-manager` <br>
 3. Set up the frontend and backend components according to the project(url) structure. <br>
 
