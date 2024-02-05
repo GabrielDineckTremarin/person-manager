@@ -30,15 +30,18 @@ function PeopleList() {
         id='container-list-contacts'
         className={`${windowWidth < 800 ?  'me-3 ms-3': 'w-75'}  m-auto mt-5`}
         >
-        <h1>Contacts</h1>
+        <div className='mb-5' style={{display:"flex", flexDirection: "row"}}>
+            <h1 >Contacts</h1>
+            <Button className='btn-success ms-auto'>New Contact</Button>
+        </div>
 
         
             <Row  
 
-            className='m-auto mt-5 border rounded pt-2 pb-2'>
+                className='m-auto mt-2 border rounded pt-2 pb-2'>
                 <Col xs={9}>
                 <a  
-                href="#" 
+                href="/ContactEdit" 
                 id='custom-link-list'
                 className="text-decoration-none text-dark d-block  pe-1 ps-1 rounded"
                 >
@@ -50,18 +53,16 @@ function PeopleList() {
                 </Col>
                 <Col xs={3} className='mt-auto mb-auto'>
                     <div style={{width:60, marginLeft:"auto"}}>
-                    <Button  className='btn btn-warning p-0 me-2'>
+                    <Button  className='btn btn-light p-0 me-2'>
                         <img width={20} src={EditIcon} alt="Edit Icon" />
                     </Button>
-                    <Button  className='btn-danger p-0'>
+                    <Button  className='btn-light p-0'>
                         <img width={20} src={DeleteIcon} alt="Delete Icon" />
                 </Button>
                     </div>
 
                 </Col>
             </Row>
-
-            
        
         </div>
 
