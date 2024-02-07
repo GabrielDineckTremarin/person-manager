@@ -42,7 +42,7 @@ namespace ContactOrganizer.Repository
                 .Set(p => p.FullName, person.FullName)
                 .Set(p => p.Birthday, person.Birthday)
                 .Set(p => p.Age, person.Age)
-                .Set(p => p.ContactsIds, person.ContactsIds)
+                .Set(p => p.ContactId, person.ContactId)
                 .Set(p => p.AddressesIds, person.AddressesIds);
         }
 
