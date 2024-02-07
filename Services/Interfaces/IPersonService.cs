@@ -5,10 +5,10 @@ namespace PersonManager.Services.Interfaces
 {
     public interface IPersonService
     {
-        List<PersonDTO> GetAllPeople();
-        PersonDTO GetPersonById(string personId);
-        void CreatePerson(PersonDTO person);
-        void UpdatePerson(PersonDTO person);
+        List<DtoPerson> GetAllPeople();
+        DtoPerson GetPersonById(string personId);
+        void CreatePerson(DtoPerson person);
+        void UpdatePerson(DtoPerson person);
         void DeletePerson(string personId);
     }
 }

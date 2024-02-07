@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const Login: React.FC = () => {
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
   const [credentials, setCredentials] = useState({
     username: '',
     password: '',
@@ -20,8 +22,29 @@ const Login: React.FC = () => {
     console.log('Logging in with:', credentials);
   };
 
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    // Remove event listener when the component is unmounted
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+
+  
   return (
-    <div className="container mt-5 w-25">
+    <div 
+    className={windowWidth < 1000 
+      ? 
+    windowWidth < 500 ? "container mt-5 w-100" : "container mt-5 w-50"
+    : 
+    "container mt-5 w-25"}>
       <h2 className="text-center">Login</h2>
       <form onSubmit={handleLogin} className='d-flex align-center flex-column'>
         <div className="form-group">

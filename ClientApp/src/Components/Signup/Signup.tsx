@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const Signup: React.FC = () => {
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -24,8 +26,24 @@ const Signup: React.FC = () => {
     console.log('Signing up with:', formData);
   };
 
+
+
+  useEffect(() => {
+      const handleResize = () => {
+        setWindowWidth(window.innerWidth);
+      };
+  
+      window.addEventListener('resize', handleResize);
+  
+      // Remove event listener when the component is unmounted
+      return () => {
+        window.removeEventListener('resize', handleResize);
+      };
+    }, []);
+
+
   return (
-    <div className="container mt-5 w-50">
+    <div className={windowWidth > 500 ? 'container mt-5 w-50' : 'container mt-5 w-100'}>
       <h2 className="text-center">Sign Up</h2>
       <form  onSubmit={handleSignup}>
 

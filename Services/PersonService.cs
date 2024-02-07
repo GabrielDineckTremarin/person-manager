@@ -14,19 +14,19 @@ namespace ContactOrganizer.Services
             _personRepository = personRepository;
         }
 
-        public List<PersonDTO> GetAllPeople()
+        public List<DtoPerson> GetAllPeople()
         {
             return _personRepository.GetAllPeople();
         }
-        public PersonDTO GetPersonById(string personId)
+        public DtoPerson GetPersonById(string personId)
         {
             return _personRepository.GetPersonById(personId);
         }
-        public void CreatePerson(PersonDTO person)
+        public void CreatePerson(DtoPerson person)
         {
             _personRepository.CreatePerson(person);
         }
-        public void UpdatePerson(PersonDTO person)
+        public void UpdatePerson(DtoPerson person)
         {
             _personRepository.UpdatePerson(person);
         }

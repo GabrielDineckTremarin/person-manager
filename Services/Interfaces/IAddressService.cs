@@ -6,10 +6,10 @@ namespace PersonManager.Services.Interfaces
 {
     public interface IAddressService
     {
-        List<AddressDTO> GetAllAddresses();
-        AddressDTO GetAddressById(string addressId);
-        void CreateAddress(AddressDTO address);
-        void UpdateAddress(AddressDTO address);
+        List<DtoAddress> GetAllAddresses();
+        DtoAddress GetAddressById(string addressId);
+        void CreateAddress(DtoAddress address);
+        void UpdateAddress(DtoAddress address);
         void DeleteAddress(string addressId);
     }
 }

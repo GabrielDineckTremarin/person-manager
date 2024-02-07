@@ -2,7 +2,7 @@
 
 namespace ContactOrganizer.Models
 {
-    public class ContactDTO : Entity
+    public class DtoContact : Entity
     {
 
         public List<string> Phones { get; set; }

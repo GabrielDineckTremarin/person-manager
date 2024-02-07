@@ -12,19 +12,19 @@ namespace ContactOrganizer.Services
             _contactRepository = contactRepository; 
         }
 
-        public List<ContactDTO> GetAllContacts()
+        public List<DtoContact> GetAllContacts()
         {
             return _contactRepository.GetAllContacts();
         }
-        public ContactDTO GetContactById(string contactId)
+        public DtoContact GetContactById(string contactId)
         {
             return _contactRepository.GetContactById(contactId);
         }
-        public void CreateContact(ContactDTO contact)
+        public void CreateContact(DtoContact contact)
         {
             _contactRepository.CreateContact(contact);
         }
-        public void UpdateContact(ContactDTO contact)
+        public void UpdateContact(DtoContact contact)
         {
             _contactRepository.UpdateContact(contact);
         }

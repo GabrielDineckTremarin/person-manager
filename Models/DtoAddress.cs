@@ -2,7 +2,7 @@ using MongoRepository;
 
 namespace ContactOrganizer.Models
 {
-	public class AddressDTO : Entity
+	public class DtoAddress : Entity
 	{
 		public string Street { get; set; }
 		public string City { get; set; }

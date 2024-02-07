@@ -8,8 +8,8 @@ namespace ContactOrganizer.Repository
     public class AddressRepository : IAddressRepository
     {
         private readonly MongoContext _mongoContext;
-        private readonly IMongoCollection<AddressDTO> _addressCollection;
-        public List<AddressDTO> GetAllAddresses()
+        private readonly IMongoCollection<DtoAddress> _addressCollection;
+        public List<DtoAddress> GetAllAddresses()
         {
             return _addressCollection.Find(new BsonDocument()).ToList();
         }
@@ -17,25 +17,25 @@ namespace ContactOrganizer.Repository
         public AddressRepository()
         {
             _mongoContext = new MongoContext();
-            _addressCollection = _mongoContext.GetCollection<AddressDTO>("AddressDTO");
+            _addressCollection = _mongoContext.GetCollection<DtoAddress>("DtoAddress");
         }
 
-        public AddressDTO GetAddressById(string addressId)
+        public DtoAddress GetAddressById(string addressId)
         {
-            var filter = Builders<AddressDTO>.Filter.Eq("_id", ObjectId.Parse(addressId));
+            var filter = Builders<DtoAddress>.Filter.Eq("_id", ObjectId.Parse(addressId));
             var address = _addressCollection.Find(filter).FirstOrDefault();
             return address;
         }
 
-        public void CreateAddress(AddressDTO address)
+        public void CreateAddress(DtoAddress address)
         {
             _addressCollection.InsertOne(address);
         }
 
-        public void UpdateAddress(AddressDTO address)
+        public void UpdateAddress(DtoAddress address)
         {
-            var filter = Builders<AddressDTO>.Filter.Eq("_id", address.Id);
-            var update = Builders<AddressDTO>.Update
+            var filter = Builders<DtoAddress>.Filter.Eq("_id", address.Id);
+            var update = Builders<DtoAddress>.Update
                 .Set(x => x.Street, address.Street)
                 .Set(x => x.City, address.City)
                 .Set(x => x.State, address.State)
@@ -47,7 +47,7 @@ namespace ContactOrganizer.Repository
 
         public void DeleteAddress(string addressId)
         {
-            var filter = Builders<AddressDTO>.Filter.Eq("_id", ObjectId.Parse(addressId));
+            var filter = Builders<DtoAddress>.Filter.Eq("_id", ObjectId.Parse(addressId));
             _addressCollection.DeleteOne(filter);
         }
 

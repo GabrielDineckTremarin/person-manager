@@ -1,8 +1,10 @@
 using MongoRepository;
+using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson;
 
 namespace ContactOrganizer.Models
 {
-    public class PersonDTO : Entity
+    public class DtoPerson : Entity
     {
         public string? Name { get; set; } = string.Empty;
         public string? LastName { get; set; } = string.Empty;
@@ -11,7 +13,7 @@ namespace ContactOrganizer.Models
         public int? Age { get; set; } = 0;
         public List<String>? ContactsIds { get; set; } = new List<String>();
         public List<String>? AddressesIds { get; set; } = new List<String>();
-
-
     }
+
+
 }

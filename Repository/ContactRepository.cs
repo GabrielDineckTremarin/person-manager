@@ -8,10 +8,10 @@ namespace ContactOrganizer.Repository
     public class ContactRepository : IContactRepository
     {
         private readonly MongoContext _mongoContext;
-        private readonly IMongoCollection<ContactDTO> _contactCollection;
+        private readonly IMongoCollection<DtoContact> _contactCollection;
 
 
-        public List<ContactDTO> GetAllContacts()
+        public List<DtoContact> GetAllContacts()
         {
             return _contactCollection.Find(new BsonDocument()).ToList();
         }
@@ -19,25 +19,25 @@ namespace ContactOrganizer.Repository
         public ContactRepository()
         {
             _mongoContext = new MongoContext();
-            _contactCollection = _mongoContext.GetCollection<ContactDTO>("ContactDTO");
+            _contactCollection = _mongoContext.GetCollection<DtoContact>("DtoContact");
         }
 
-        public ContactDTO GetContactById(string contactId)
+        public DtoContact GetContactById(string contactId)
         {
-            var filter = Builders<ContactDTO>.Filter.Eq("_id", ObjectId.Parse(contactId));
+            var filter = Builders<DtoContact>.Filter.Eq("_id", ObjectId.Parse(contactId));
             var contact = _contactCollection.Find(filter).FirstOrDefault();
             return contact;
         }
 
-        public void CreateContact(ContactDTO contact)
+        public void CreateContact(DtoContact contact)
         {
             _contactCollection.InsertOne(contact);
         }
 
-        public void UpdateContact(ContactDTO contact)
+        public void UpdateContact(DtoContact contact)
         {
-            var filter = Builders<ContactDTO>.Filter.Eq("_id", contact.Id);
-            var update = Builders<ContactDTO>.Update
+            var filter = Builders<DtoContact>.Filter.Eq("_id", contact.Id);
+            var update = Builders<DtoContact>.Update
                 .Set(x => x.Phones, contact.Phones)
                 .Set(x => x.Emails, contact.Emails)
                 .Set(x => x.SocialMedia, contact.SocialMedia);
@@ -46,7 +46,7 @@ namespace ContactOrganizer.Repository
         }
         public void DeleteContact(string contactId)
         {
-            var filter = Builders<ContactDTO>.Filter.Eq("_id", ObjectId.Parse(contactId));
+            var filter = Builders<DtoContact>.Filter.Eq("_id", ObjectId.Parse(contactId));
             _contactCollection.DeleteOne(filter);
         }
     }

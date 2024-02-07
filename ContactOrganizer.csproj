@@ -7,10 +7,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="NovaPasta\**" />
+    <Content Remove="NovaPasta\**" />
+    <EmbeddedResource Remove="NovaPasta\**" />
+    <None Remove="NovaPasta\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="MongoDB.Bson" Version="2.23.1" />
     <PackageReference Include="MongoDB.Driver" Version="2.23.1" />
     <PackageReference Include="MongoDB.Driver.Core" Version="2.23.1" />
     <PackageReference Include="MongoRepository" Version="1.6.11" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="NovaPasta1\" />
   </ItemGroup>
 
 </Project>

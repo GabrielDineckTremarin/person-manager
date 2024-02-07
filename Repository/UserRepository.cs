@@ -8,35 +8,35 @@ namespace ContactOrganizer.Repository
     public class UserRepository :IUserRepository
     {
         private readonly MongoContext _mongoContext;
-        private readonly IMongoCollection<UserDTO> _userCollection;
+        private readonly IMongoCollection<DtoUser> _userCollection;
 
         public UserRepository()
         {
             _mongoContext = new MongoContext();
-            _userCollection = _mongoContext.GetCollection<UserDTO>("UserDTO");
+            _userCollection = _mongoContext.GetCollection<DtoUser>("DtoUser");
         }
 
-        public List<UserDTO> GetAllUsers()
+        public List<DtoUser> GetAllUsers()
         {
             return _userCollection.Find(new BsonDocument()).ToList();
         }
 
-        public UserDTO GetUserById(string userId)
+        public DtoUser GetUserById(string userId)
         {
-            var filter = Builders<UserDTO>.Filter.Eq("_id", ObjectId.Parse(userId));
+            var filter = Builders<DtoUser>.Filter.Eq("_id", ObjectId.Parse(userId));
             var user = _userCollection.Find(filter).FirstOrDefault();
             return user;
         }
 
-        public void CreateUser(UserDTO user)
+        public void CreateUser(DtoUser user)
         {
             _userCollection.InsertOne(user);
         }
 
-        public void UpdateUser(UserDTO user)
+        public void UpdateUser(DtoUser user)
         {
-            var filter = Builders<UserDTO>.Filter.Eq("_id", user.Id);
-            var update = Builders<UserDTO>.Update
+            var filter = Builders<DtoUser>.Filter.Eq("_id", user.Id);
+            var update = Builders<DtoUser>.Update
                 .Set(x => x.Name, user.Name)
                 .Set(x => x.LastName, user.LastName)
                 .Set(x => x.FullName, user.FullName)
@@ -47,7 +47,7 @@ namespace ContactOrganizer.Repository
         }
         public void DeleteUser(string userId)
         {
-            var filter = Builders<UserDTO>.Filter.Eq("_id", ObjectId.Parse(userId));
+            var filter = Builders<DtoUser>.Filter.Eq("_id", ObjectId.Parse(userId));
             _userCollection.DeleteOne(filter);
         }
     }

@@ -7,10 +7,10 @@ namespace PersonManager.Services.Interfaces
 {
     public interface IContactService
     {
-        List<ContactDTO> GetAllContacts();
-        ContactDTO GetContactById(string contactId);
-        void CreateContact(ContactDTO contact);
-        void UpdateContact(ContactDTO contact);
+        List<DtoContact> GetAllContacts();
+        DtoContact GetContactById(string contactId);
+        void CreateContact(DtoContact contact);
+        void UpdateContact(DtoContact contact);
         void DeleteContact(string contactId);
     }
 }

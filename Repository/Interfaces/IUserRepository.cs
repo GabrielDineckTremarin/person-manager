@@ -5,10 +5,10 @@ namespace ContactOrganizer.Repository
 {
     public interface IUserRepository
     {
-        List<UserDTO> GetAllUsers();
-        UserDTO GetUserById(string userId);
-        void CreateUser(UserDTO user);
-        void UpdateUser(UserDTO user);
+        List<DtoUser> GetAllUsers();
+        DtoUser GetUserById(string userId);
+        void CreateUser(DtoUser user);
+        void UpdateUser(DtoUser user);
         void DeleteUser(string userId);
     }
 }

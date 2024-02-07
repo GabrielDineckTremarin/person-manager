@@ -2,7 +2,7 @@
 
 namespace ContactOrganizer.Models
 {
-    public class UserDTO : Entity
+    public class DtoUser : Entity
     {
         public string Password { get; set; }
         public string Email { get; set; }

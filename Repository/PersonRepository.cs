@@ -10,33 +10,33 @@ namespace ContactOrganizer.Repository
     public class PersonRepository : IPersonRepository
     {
         private readonly MongoContext _mongoContext;
-        private readonly IMongoCollection<PersonDTO> _personCollection;
+        private readonly IMongoCollection<DtoPerson> _personCollection;
 
         public PersonRepository()
         {
             _mongoContext = new MongoContext();
-            _personCollection = _mongoContext.GetCollection<PersonDTO>("PersonDTO");
+            _personCollection = _mongoContext.GetCollection<DtoPerson>("DtoPerson");
         }
 
-        public List<PersonDTO> GetAllPeople()
+        public List<DtoPerson> GetAllPeople()
         {
             return _personCollection.Find(new BsonDocument()).ToList();
         }
-        public PersonDTO GetPersonById(string personId)
+        public DtoPerson GetPersonById(string personId)
         {
-            var filter = Builders<PersonDTO>.Filter.Eq("_id", ObjectId.Parse(personId));
+            var filter = Builders<DtoPerson>.Filter.Eq("_id", ObjectId.Parse(personId));
             var person = _personCollection.Find(filter).FirstOrDefault();
             return person;
         }
 
-        public void CreatePerson(PersonDTO person) {
+        public void CreatePerson(DtoPerson person) {
             _personCollection.InsertOne(person);
         }
 
-        public void UpdatePerson(PersonDTO person)
+        public void UpdatePerson(DtoPerson person)
         {
-            var filter = Builders<PersonDTO>.Filter.Eq("_id", person.Id);
-            var update = Builders<PersonDTO>.Update
+            var filter = Builders<DtoPerson>.Filter.Eq("_id", person.Id);
+            var update = Builders<DtoPerson>.Update
                 .Set(p => p.Name, person.Name)
                 .Set(p => p.LastName, person.LastName)
                 .Set(p => p.FullName, person.FullName)
@@ -48,7 +48,7 @@ namespace ContactOrganizer.Repository
 
         public void DeletePerson(string personId)
         {
-            var filter = Builders<PersonDTO>.Filter.Eq("_id", ObjectId.Parse(personId));
+            var filter = Builders<DtoPerson>.Filter.Eq("_id", ObjectId.Parse(personId));
             _personCollection.DeleteOne(filter);
         }
     }

@@ -14,20 +14,20 @@ namespace ContactOrganizer.Services
             _userRepository = userRepository;
         }
 
-        public List<UserDTO> GetAllUsers()
+        public List<DtoUser> GetAllUsers()
         {
             return _userRepository.GetAllUsers();
         }
 
-        public UserDTO GetUserById(string userId)
+        public DtoUser GetUserById(string userId)
         {
             return _userRepository.GetUserById(userId);
         }
-        public void CreateUser(UserDTO user)
+        public void CreateUser(DtoUser user)
         {
             _userRepository.CreateUser(user);
         }
-        public void UpdateUser(UserDTO user)
+        public void UpdateUser(DtoUser user)
         {
             _userRepository.UpdateUser(user);
         }

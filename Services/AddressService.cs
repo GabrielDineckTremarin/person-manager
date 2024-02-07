@@ -13,16 +13,16 @@ namespace ContactOrganizer.Services
             _addressRepository = addressRepository;
         }
 
-        public List<AddressDTO> GetAllAddresses(){
+        public List<DtoAddress> GetAllAddresses(){
             return _addressRepository.GetAllAddresses();
         }
-        public AddressDTO GetAddressById(string addressId){
+        public DtoAddress GetAddressById(string addressId){
             return _addressRepository.GetAddressById(addressId);
         }
-        public void CreateAddress(AddressDTO address){
+        public void CreateAddress(DtoAddress address){
             _addressRepository.CreateAddress(address);  
         }
-        public void UpdateAddress(AddressDTO address){
+        public void UpdateAddress(DtoAddress address){
             _addressRepository.UpdateAddress(address);
         }
         public void DeleteAddress(string addressId){

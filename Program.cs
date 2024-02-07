@@ -5,6 +5,8 @@ using ContactOrganizer.Services.Interfaces;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using PersonManager.Services.Interfaces;
+using MongoDB.Bson;
+using MongoDB.Driver;
 
 namespace ContactOrganizer
 {
@@ -33,26 +35,6 @@ namespace ContactOrganizer
             builder.Services.AddScoped<IPersonService, PersonService>();
             
             var app = builder.Build();
-
-  
-            //var db = new MongoDbContext();
-
-            //// Exemplos de usuários
-            //var user1 = new UserDTO
-            //{
-            //    Username = "user1",
-            //    Password = "password1",
-            //    Email = "user1@example.com",
-            //    FullName = "User One",
-            //    BirthDate = new DateTime(1990, 5, 15),
-            //    Phone = "123-456-7890"
-            //};
-
-            //var userCollection = db.GetCollection<UserDTO>("UserDTO");
-            //userCollection.InsertOne(user1);
-
-            // var categoriesCollection = mongoContext.GetCollection<BsonDocument>("Category");
-            // //var catDes = BsonSerializer.Deserialize<Category>(document);
 
 
             // Configure the HTTP request pipeline.
