@@ -74,6 +74,7 @@ const Login: React.FC = () => {
         <button style={{ width:"100px"}}  type="submit" className="btn btn-primary mt-2 m-auto">Login</button>
       </form>
     </div>
+    
   );
 };
 
