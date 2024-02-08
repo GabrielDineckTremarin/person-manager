@@ -13,7 +13,7 @@ namespace ContactOrganizer.Models
 
         public int? Age { get; set; } = 0;
 
-        public String? ContactId { get; set; } = string.Empty
+        public String? ContactId { get; set; } = string.Empty;
         public List<String>? AddressesIds { get; set; } = new List<String>();
     }
 

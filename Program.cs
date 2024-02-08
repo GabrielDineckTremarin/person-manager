@@ -17,7 +17,6 @@ namespace ContactOrganizer
         {
 
             var builder = WebApplication.CreateBuilder(args);
-
            
             builder.Services.AddControllersWithViews();
 
@@ -33,9 +32,22 @@ namespace ContactOrganizer
 
             builder.Services.AddSingleton<IPersonRepository, PersonRepository>();
             builder.Services.AddScoped<IPersonService, PersonService>();
-            
-            var app = builder.Build();
 
+
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("DevelopmentPolicy",
+                    builder =>
+                    {
+                        builder                       
+                            .AllowAnyOrigin()
+                            .AllowAnyMethod()
+                            .AllowAnyHeader();
+                    });
+            });
+
+            var app = builder.Build();
+            app.UseCors("DevelopmentPolicy"); // Pq isso aqui faz funcionar?
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())

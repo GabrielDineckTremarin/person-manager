@@ -16,7 +16,7 @@
         public string? FullName { get; set; } = string.Empty;
         public DateTime Birthday { get; set; }
         public int? Age { get; set; } = 0;
-        public List<DtoContact>? Contacts{ get; set; } = new List<DtoContact>();
+        public DtoContact? Contact{ get; set; }
         public List<DtoAddress>? Addresses { get; set; } = new List<DtoAddress>();
     }
 }

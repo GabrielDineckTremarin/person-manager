@@ -59,12 +59,8 @@ namespace ContactOrganizer.Business
                     if(address != null) addresses.Add(address);
                 });
 
-                var contacts = new List<DtoContact>();
-                person.ContactsIds?.ForEach(c =>
-                {   
-                    var contact = _contactService.GetContactById(c);
-                    if(contact != null) contacts.Add(contact);
-                });
+                var contact = _contactService.GetContactById(person.Id);
+
 
                 var response = new PersonResponse()
                 {
@@ -72,7 +68,7 @@ namespace ContactOrganizer.Business
                     Name = person.Name,
                     LastName = person.LastName,
                     FullName = person.FullName,
-                    Contacts = contacts,
+                    Contact = contact,
                     Addresses = addresses,
                     Birthday = person.Birthday,
                     Age = person.Age,

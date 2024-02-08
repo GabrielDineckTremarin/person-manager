@@ -5,12 +5,15 @@ import {Row, Col, Button } from 'reactstrap'
 
 import EditIcon from '../../assets/icons/edit.svg'
 import DeleteIcon from '../../assets/icons/delete.svg'
+import { getPeopleList  } from '../../ApiService/ApiService'; 
 
 // import CustomNavbar from './Components/Navbar/CustomNavbar';
 
 function PeopleList() {
 
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+
 
     useEffect(() => {
         const handleResize = () => {
@@ -19,6 +22,12 @@ function PeopleList() {
     
         window.addEventListener('resize', handleResize);
     
+        const fetchListPeople = async () => {
+            const data = await getPeopleList();
+            console.log(data)
+        } 
+
+        fetchListPeople()
         // Remove event listener when the component is unmounted
         return () => {
           window.removeEventListener('resize', handleResize);
