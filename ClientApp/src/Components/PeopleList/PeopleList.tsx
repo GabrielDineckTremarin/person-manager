@@ -16,7 +16,18 @@ function PeopleList() {
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
 
-
+    useEffect(() => {
+        const handleResize = () => {
+          setWindowWidth(window.innerWidth);
+        };
+    
+        window.addEventListener('resize', handleResize);
+    
+        // Remove event listener when the component is unmounted
+        return () => {
+          window.removeEventListener('resize', handleResize);
+        };
+      }, []);
 
   
       useEffect(() => {
@@ -45,20 +56,21 @@ function PeopleList() {
             </a>
         </div>
 
-        
-            <Row  
-
+        {
+            people != null  &&
+            people.map((person, index) => (
+                <Row  
                 className='m-auto mt-2 border rounded pt-2 pb-2'>
                 <Col xs={9}>
                 <a  
-                href="/edit/1" 
+                href={`view/${person.id}`} 
                 id='custom-link-list'
                 className="text-decoration-none text-dark d-block  pe-1 ps-1 rounded"
                 >
                 <span
                 style={{fontSize:`${windowWidth > 700 ? "25px" : "16px"}`}}
-                >Joãozinho da silva leão</span>
-
+                >{person.name}</span>
+    
                 </a>
                 </Col>
                 <Col xs={3} className='mt-auto mb-auto'>
@@ -70,9 +82,11 @@ function PeopleList() {
                         <img width={20} src={DeleteIcon} alt="Delete Icon" />
                 </Button>
                     </div>
-
+    
                 </Col>
             </Row>
+            ))
+        }
        
         </div>
 

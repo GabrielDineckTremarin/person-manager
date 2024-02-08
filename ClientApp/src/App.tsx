@@ -9,7 +9,7 @@ import ContactEdit from './Components/ContactEdit/ContactEdit';
 import Home from './Components/Home/Home';
 import Login from './Components/Login/Login';
 import Signup from './Components/Signup/Signup';
-
+import PersonView from './Components/PersonView/PersonView';
 
 
 function App() {
@@ -24,7 +24,10 @@ function App() {
 
           <Route path="/list" element={ <PeopleList />}></Route>
            
-          <Route path="/edit/:id" element={ <ContactEdit />}></Route>
+          <Route path="/edit/:personId" element={ <ContactEdit />}></Route>
+
+          <Route path="/view/:personId" element={ <PersonView/>}></Route>
+
 
           <Route path="/login" element={ <Login />}></Route>
 
