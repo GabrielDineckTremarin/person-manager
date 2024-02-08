@@ -1,7 +1,5 @@
-import axios from "axios"
 
-import { IPersonResponse } from "../Interfaces/IPersonResponse";
-import axiosInstance from './AxiosConfig';
+import axiosConfig from './AxiosConfig';
 
 const BaseURL: string = "https://localhost:3000"
 
@@ -11,13 +9,15 @@ interface ApiData {
     data: any;
 }
 
-export const getPeopleList = async () => {
-    try {
-        const response = await axiosInstance.get(`/Person/get-list-of-people/`);
-        return response
-    }catch (err){
-        console.log(err)
-    }
-        // console.log(response.data); // The data received from the API
-};
+export const getPeopleList = async (): Promise<ApiData>  => {
+        const response = await axiosConfig.get(`/Person/get-list-of-people/`);
 
+        const apiData: ApiData = {
+            message: response.data.message,
+            success: response.data.success,
+            data: response.data.data,
+        };
+
+        return apiData;
+    
+}

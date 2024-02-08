@@ -6,34 +6,33 @@ import {Row, Col, Button } from 'reactstrap'
 import EditIcon from '../../assets/icons/edit.svg'
 import DeleteIcon from '../../assets/icons/delete.svg'
 import { getPeopleList  } from '../../ApiService/ApiService'; 
+import { IPersonResponse } from '../../Interfaces/IPersonResponse';
 
 // import CustomNavbar from './Components/Navbar/CustomNavbar';
 
 function PeopleList() {
 
+    const [people, setPeople] = useState<IPersonResponse[]>([])
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
 
 
-    useEffect(() => {
-        const handleResize = () => {
-          setWindowWidth(window.innerWidth);
-        };
-    
-        window.addEventListener('resize', handleResize);
-    
+
+  
+      useEffect(() => {
+            
         const fetchListPeople = async () => {
+
             const data = await getPeopleList();
-            console.log(data)
+            const dataFormatted = JSON.parse(JSON.stringify(data.data));
+            setPeople(dataFormatted)
         } 
 
         fetchListPeople()
-        // Remove event listener when the component is unmounted
-        return () => {
-          window.removeEventListener('resize', handleResize);
-        };
-      }, []);
-  
+    },[windowWidth])
+
+
+
     return ( 
         <div
         id='container-list-contacts'

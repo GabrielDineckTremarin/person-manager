@@ -8,6 +8,6 @@ export interface IPersonResponse {
     fullName?: string;
     birthday: Date;
     age?: number;
-    contactsIds?: IContact[];
+    contactId?: IContact;
     addressesIds?: IAddress[];
   }
