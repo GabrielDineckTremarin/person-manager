@@ -51,7 +51,7 @@ function PeopleList() {
         >
         <div className='mb-5' style={{display:"flex", flexDirection: "row"}}>
             <h1 >Contacts</h1>
-            <a className='ms-auto text-decoration-none text-dark d-block' href={`/edit/`}>
+            <a className='ms-auto text-decoration-none text-dark d-block' href={`/edit/new`}>
                 <Button className='btn-success '>New Contact</Button>
             </a>
         </div>

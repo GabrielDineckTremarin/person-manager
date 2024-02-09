@@ -4,19 +4,30 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {Row, Col, Button, Label, Input, FormGroup } from 'reactstrap'
 
 import EditIcon from '../../assets/icons/edit.svg'
-import DeleteIcon from '../../assets/icons/delete.svg'
+import DeleteIcon from '../../assets/icons/delete2.svg'
 import { getPerson } from '../../ApiService/ApiService'; 
 import { IPersonResponse } from '../../Interfaces/IPersonResponse';
 import { useParams } from "react-router-dom";
+import { IContact } from "../../Interfaces/IContact";
+import { IAddress } from "../../Interfaces/IAddress";
 
 
-// import CustomNavbar from './Components/Navbar/CustomNavbar';
+
 
 function PersonEdit() {
     const { personId } = useParams();
 
+    const [person, setPerson] = useState<IPersonResponse>({
+      id: personId || "",
+      name: "",
+      lastName:"",
+      fullName:"",
+      birthday:new Date(),
+      age: 0,
+      contact: {phones: [], socialMedia: [], emails: []},
+      addresses: []
 
-    const [person, setPerson] = useState<IPersonResponse>()
+    })
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
     useEffect(() => {
@@ -63,32 +74,41 @@ function PersonEdit() {
         <Row className='mt-5 mb-5'>
           <h4 className='mb-4'>Personal Information</h4>
           <Col md={3}>
-            <span><strong>Name:</strong> </span>
-            <Input type='text'></Input>
+          <Label style={{fontWeight:"bold"}}>Name: </Label>
+            <Input placeholder="Person's name" type='text'></Input>
           </Col>
           <Col md={3}>
-          <span><strong>Age:</strong></span>
+          <Label placeholder="Person's age" style={{fontWeight:"bold"}}>Age: </Label>
           <Input type='text'></Input>
 
           </Col>
           <Col md={3}>
-          <span><strong>Birthday:</strong> </span>
-          <Input type='date'></Input>
+          <Label placeholder="Person's birthday" style={{fontWeight:"bold"}}>Birthday: </Label>
+          <Input  type='date'></Input>
           </Col>
         </Row>
         <hr />
         <Row className='mt-5 mb-5'>
           <h4 className='mb-4'>Contact Information</h4>
-          <Col md={3}>
-            <span><strong>Phone Numbers:</strong></span>
+          <Col md={4}>
+          <Label style={{fontWeight:"bold"}}>Phone Numbers: </Label>
+
+          <div className='d-flex flex-row'>
+            <Input placeholder="Person's number"  className='w-75' type='text'></Input>
+            <Button style={{fontSize:20, fontWeight:"bold"}} className='btn-success ms-2 pe-2 ps-2 pt-0 pb-0'>+</Button>
+          </div>
+
             <ul style={{listStyle:"none"}}>
             {
               person?.contact?.phones?.map((phone, index) => (
-                <li key={index}>
+                <li key={index} className='mb-2 mt-2'>
                   <strong>
                     Phone {index+1}:
                   </strong>
                   <span> {phone || ""}</span>
+                  <Button style={{fontSize:16, fontWeight:"bold"}} className='btn-danger ms-2 p-0 pe-1 ps-1 pb-1'>
+                  <img width={18} src={DeleteIcon} alt="" />
+                </Button>
                 </li>
 
               ))
@@ -96,16 +116,23 @@ function PersonEdit() {
           </ul>
 
           </Col>
-          <Col md={3}>
-          <span><strong>Emails:</strong></span>
+          <Col md={4}>
+          <Label style={{fontWeight:"bold"}}>Emails: </Label>
+          <div className='d-flex flex-row'>
+            <Input placeholder="Person's email"  className='w-75' type='text'></Input>
+            <Button style={{fontSize:20, fontWeight:"bold"}} className='btn-success ms-2 pe-2 ps-2 pt-0 pb-0'>+</Button>
+          </div>
           <ul style={{listStyle:"none"}}>
             {
               person?.contact?.emails?.map((email, index) => (
-                <li key={index}>
+                <li key={index} className='mb-2 mt-2'>
                   <strong>
                     Email {index+1}:
                   </strong>
                   <span> {email || ""}</span>
+                  <Button style={{fontSize:16, fontWeight:"bold"}} className='btn-danger ms-2 p-0 pe-1 ps-1 pb-1'>
+                  <img width={18} src={DeleteIcon} alt="" />
+                </Button>
                 </li>
 
               ))
@@ -113,16 +140,30 @@ function PersonEdit() {
           </ul>
 
           </Col>
-          <Col md={3}>
-          <span><strong>Social Media:</strong>  </span>
+          <Col md={4}>
+          <Label style={{fontWeight:"bold"}}>Social Media: </Label>
+          <div className='d-flex flex-row'>
+            <Input className='w-75' type='select'>
+            <option value="Select">Select</option>
+              <option value="Facebook">Facebook</option>
+              <option value="X">X</option>
+              <option value="Instagram">Instagram</option>
+              <option value="Twitter">Twitter</option>
+            </Input>
+            <Input className='ms-2' placeholder="Person's username" type='text'></Input>
+            <Button style={{fontSize:20, fontWeight:"bold"}} className='btn-success ms-2 pe-2 ps-2 pt-0 pb-0'>+</Button>
+          </div>
           <ul style={{listStyle:"none"}}>
             {
               person?.contact?.socialMedia?.map((socialMedia, index) => (
-                <li key={index}>
+                <li key={index} className='mb-2 mt-2'>
                   <strong>
                     {socialMedia?.mediaName}:
                   </strong>
                   <span> {socialMedia?.username}</span>
+                  <Button style={{fontSize:16, fontWeight:"bold"}} className='btn-danger ms-2 p-0 pe-1 ps-1 pb-1'>
+                  <img width={18} src={DeleteIcon} alt="" />
+                </Button>
                 </li>
 
               ))
@@ -134,7 +175,39 @@ function PersonEdit() {
 
         <hr />
         <h4 className='mb-4 mt-5'>Address Information</h4>
+        <Row className='mt-0 mb-5'>
+            <h5 className='mb-3'>New Address </h5>
+            <Col md={2}>
+            <Label style={{fontWeight:"bold"}}>Street: </Label>
+            <Input  type='text'></Input>
+  
+            </Col>
+            <Col md={2}>
+            <Label style={{fontWeight:"bold"}}>City: </Label>
+              <Input  type='text'></Input>
 
+            </Col>
+  
+            <Col md={2}>
+             <Label style={{fontWeight:"bold"}}>State: </Label>
+              <Input  type='text'></Input>
+            </Col>
+
+            <Col md={2}>
+
+            <Label style={{fontWeight:"bold"}}>Postal Code: </Label>
+              <Input  type='text'></Input>
+            </Col>
+
+            <Col md={2}>
+            <Label style={{fontWeight:"bold"}}>Street: </Label>
+              <Input  type='text'></Input>
+            </Col>
+
+            <Col md={2} className='mt-auto'>
+            <Button style={{fontSize:20, fontWeight:"bold"}} className='btn-success pe-2 ps-2 pt-1 pb-1'>+</Button>
+            </Col>
+          </Row>
         {
           person?.addresses?.map((address, index) => (
             <Row className='mt-0 mb-5'>
@@ -158,6 +231,15 @@ function PersonEdit() {
             <Col md={2}>
             <span><strong>Country:</strong> {address?.country || ""}</span>
             </Col>
+            
+              <Col md={2} className='mt-auto'>
+
+                <Button style={{fontSize:22, fontWeight:"bold"}} className='btn-danger pe-2 ps-2 pt-0 pb-1'>
+                  <img width={18} src={DeleteIcon} alt="" />
+                </Button>
+              </Col>
+            
+
           </Row>
 
           ))
