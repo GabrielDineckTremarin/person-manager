@@ -5,7 +5,7 @@ import './App.css'
 
 import CustomNavbar from './Components/Navbar/CustomNavbar';
 import PeopleList from './Components/PeopleList/PeopleList';
-import ContactEdit from './Components/ContactEdit/ContactEdit';
+import PersonEdit from './Components/PersonEdit/PersonEdit';
 import Home from './Components/Home/Home';
 import Login from './Components/Login/Login';
 import Signup from './Components/Signup/Signup';
@@ -24,7 +24,7 @@ function App() {
 
           <Route path="/list" element={ <PeopleList />}></Route>
            
-          <Route path="/edit/:personId" element={ <ContactEdit />}></Route>
+          <Route path="/edit/:personId" element={ <PersonEdit />}></Route>
 
           <Route path="/view/:personId" element={ <PersonView/>}></Route>
 

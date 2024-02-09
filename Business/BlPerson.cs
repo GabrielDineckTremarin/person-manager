@@ -38,7 +38,27 @@ namespace ContactOrganizer.Business
             if(person == null)
                 throw new Exception("Contato não encontrado");
 
-            return person;
+            var addressesList = new List<DtoAddress>();
+            person.AddressesIds.ForEach(id =>
+            {
+                var address = _addressService.GetAddressById(id);
+                if (address != null) addressesList.Add(address);
+            });
+
+            var contact = _contactService.GetContactById(person.ContactId);
+
+            var response = new PersonResponse()
+            {
+                Id = person.Id,
+                Name = person.Name,
+                LastName = person.LastName,
+                FullName = person.FullName,
+                Contact = contact,
+                Addresses = addressesList,
+                Birthday = person.Birthday,
+                Age = person.Age,
+            };
+            return response;
         }
 
         public async Task<object> GetListOfPeople()

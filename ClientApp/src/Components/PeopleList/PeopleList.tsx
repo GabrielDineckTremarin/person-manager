@@ -51,7 +51,7 @@ function PeopleList() {
         >
         <div className='mb-5' style={{display:"flex", flexDirection: "row"}}>
             <h1 >Contacts</h1>
-            <a className='ms-auto text-decoration-none text-dark d-block' href="/edit/">
+            <a className='ms-auto text-decoration-none text-dark d-block' href={`/edit/`}>
                 <Button className='btn-success '>New Contact</Button>
             </a>
         </div>
@@ -75,9 +75,11 @@ function PeopleList() {
                 </Col>
                 <Col xs={3} className='mt-auto mb-auto'>
                     <div style={{width:60, marginLeft:"auto"}}>
-                    <Button  className='btn btn-light p-0 me-2'>
-                        <img width={20} src={EditIcon} alt="Edit Icon" />
-                    </Button>
+                    <a href={`/edit/${person.id}`}>
+                        <Button  className='btn btn-light p-0 me-2'>
+                            <img width={20} src={EditIcon} alt="Edit Icon" />
+                        </Button>
+                    </a>
                     <Button  className='btn-light p-0'>
                         <img width={20} src={DeleteIcon} alt="Delete Icon" />
                 </Button>

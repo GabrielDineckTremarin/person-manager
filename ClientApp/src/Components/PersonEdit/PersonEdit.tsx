@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 
 import 'bootstrap/dist/css/bootstrap.min.css'; 
-import {Row, Col, Button, Label } from 'reactstrap'
+import {Row, Col, Button, Label, Input, FormGroup } from 'reactstrap'
 
 import EditIcon from '../../assets/icons/edit.svg'
 import DeleteIcon from '../../assets/icons/delete.svg'
@@ -12,7 +12,7 @@ import { useParams } from "react-router-dom";
 
 // import CustomNavbar from './Components/Navbar/CustomNavbar';
 
-function PersonView() {
+function PersonEdit() {
     const { personId } = useParams();
 
 
@@ -54,20 +54,26 @@ function PersonView() {
         className={` w-75 m-auto`}
         >
           <div className='w-100 d-flex mt-3'>
-          <a className='ms-auto text-decoration-none text-dark d-block' href={`/edit/${personId}`}>
-            <Button className='btn-success '>Edit Contact</Button>
+          <a className='ms-auto text-decoration-none text-dark d-block' href={`/view/${personId}`}>
+            <Button className='btn-success '>Save Contact</Button>
           </a>
           </div>
+
+
         <Row className='mt-5 mb-5'>
           <h4 className='mb-4'>Personal Information</h4>
           <Col md={3}>
-            <span><strong>Name:</strong> {person?.fullName}</span>
+            <span><strong>Name:</strong> </span>
+            <Input type='text'></Input>
           </Col>
           <Col md={3}>
-          <span><strong>Age:</strong> {person?.age}</span>
+          <span><strong>Age:</strong></span>
+          <Input type='text'></Input>
+
           </Col>
           <Col md={3}>
-          <span><strong>Birthday:</strong> {person?.birthday.toString() || ""}</span>
+          <span><strong>Birthday:</strong> </span>
+          <Input type='date'></Input>
           </Col>
         </Row>
         <hr />
@@ -163,4 +169,4 @@ function PersonView() {
     ); 
 } 
 
-export default PersonView
+export default PersonEdit

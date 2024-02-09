@@ -17,7 +17,16 @@ export const getPeopleList = async (): Promise<ApiData>  => {
             success: response.data.success,
             data: response.data.data,
         };
-
         return apiData;
-    
+}
+
+export const getPerson = async (id: string): Promise<ApiData>  => {
+    const response = await axiosConfig.get(`/Person/get-person-by-id/${id}`);
+
+    const apiData: ApiData = {
+        message: response.data.message,
+        success: response.data.success,
+        data: response.data.data,
+    };
+    return apiData;
 }
