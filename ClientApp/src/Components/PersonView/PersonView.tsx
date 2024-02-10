@@ -67,7 +67,8 @@ function PersonView() {
           <span><strong>Age:</strong> {person?.age}</span>
           </Col>
           <Col md={3}>
-          <span><strong>Birthday:</strong> {person?.birthday.toString() || ""}</span>
+          <span><strong>Birthday: </strong> 
+          {new Date(person?.birthday || "").toISOString().split('T')[0] || ""}</span>
           </Col>
         </Row>
         <hr />
