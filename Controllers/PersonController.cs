@@ -30,6 +30,24 @@ namespace ContactOrganizer.Controllers
             _blPerson = new BlPerson(_personService, _contactService, _addressService, _userService);
         }
 
+        [HttpPost]
+        [Route("create-person")]
+        public async Task<object> CreatePerson([FromBody] PersonResponse person)
+        {
+            try
+            {
+                var result = await _blPerson.CreatePerson(person);
+
+                return new Response() { Data = result, Message = String.Empty, Success = true };
+            }
+            catch (Exception ex)
+            {
+                return new Response() { Data = ex, Message = ex.Message, Success = false };
+
+            }
+
+        }
+
 
 
         [HttpGet]

@@ -3,6 +3,8 @@ using MongoDB.Bson;
 using PersonManager.Services.Interfaces;
 using ContactOrganizer.Utils;
 using ContactOrganizer.Models;
+using System.Runtime.CompilerServices;
+using System.Net;
 
 namespace ContactOrganizer.Business
 {
@@ -27,6 +29,49 @@ namespace ContactOrganizer.Business
             _userService = userService;
         }
 
+        public async Task<PersonResponse> CreatePerson(PersonResponse person)
+        {
+            var contact = person.Contact;
+            var listAddresses = person.Addresses;
+
+            if (contact != null && String.IsNullOrEmpty(contact?.Id) || !Mongo_Utils.IsObjectId(contact?.Id))
+            {
+                contact.Id = ObjectId.GenerateNewId().ToString();
+                _contactService.CreateContact(contact);
+
+            }
+
+
+            if (listAddresses != null)
+            {
+
+                for(int i = 0; i < listAddresses.Count; i++)
+                {
+                    var address = listAddresses[i];
+                    if(String.IsNullOrEmpty(address?.Id) || !Mongo_Utils.IsObjectId(address?.Id))
+                    {
+                        address.Id = ObjectId.GenerateNewId().ToString();
+                        listAddresses[i] = address;
+                    }
+                    _addressService.CreateAddress(address);
+                }
+
+            }
+
+            var dtoPerson = new DtoPerson()
+            {
+                Name = person.Name,
+                LastName = person.LastName,
+                FullName = $"{person.Name} {person.LastName}",
+                Birthday = person.Birthday,
+                ContactId = contact.Id,
+                AddressesIds = listAddresses?.Select(a => a.Id).ToList(),
+                Age = person.Age,
+            };
+            _personService.CreatePerson(dtoPerson);
+
+            return person;
+        }
 
         public async Task<object> GetPersonById(string id)
         {

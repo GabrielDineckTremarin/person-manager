@@ -1,4 +1,4 @@
-interface IContactSocialMedia {
+export interface IContactSocialMedia {
     mediaName: string;
     username: string;
   }
