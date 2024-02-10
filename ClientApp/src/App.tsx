@@ -1,7 +1,6 @@
 // import React, { useState } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'; 
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import './App.css'
 
 import CustomNavbar from './Components/Navbar/CustomNavbar';
 import PeopleList from './Components/PeopleList/PeopleList';
@@ -10,7 +9,6 @@ import Home from './Components/Home/Home';
 import Login from './Components/Login/Login';
 import Signup from './Components/Signup/Signup';
 import PersonView from './Components/PersonView/PersonView';
-
 
 function App() {
   
@@ -36,6 +34,7 @@ function App() {
            
         </Routes>
       </BrowserRouter>
+
       </>
 
     ); 

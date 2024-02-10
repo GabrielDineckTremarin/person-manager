@@ -10,17 +10,18 @@ import { IPersonResponse } from '../../Interfaces/IPersonResponse';
 import { useParams } from "react-router-dom";
 import { IContact } from "../../Interfaces/IContact";
 import { IAddress } from "../../Interfaces/IAddress";
+import { showMessage }from '../../Utils/utils'
+import { ToastContainer } from 'react-toastify';
+
 
 
 
 
 function PersonEdit() {
     const { personId } = useParams();
-
-
     const [personBirthday, setPersonBirthday] = useState<string>('')
     const [phone, setPhone] = useState<string>('')
-    const [emails, setEmails] = useState<string[]>([])
+    const [email, setEmail] = useState<string>('')
 
     const [person, setPerson] = useState<IPersonResponse>({
       id: personId || "",
@@ -41,7 +42,6 @@ function PersonEdit() {
         };
         window.addEventListener('resize', handleResize);
         
-
         return () => {
           window.removeEventListener('resize', handleResize);
         };
@@ -60,11 +60,38 @@ function PersonEdit() {
      },[windowWidth])
 
      useEffect(() => {
-      console.log(person.contact)
-      },[person])
 
+    },[person])
+
+    const handlePhoneNumber = () => {
+        if(phone === ''){
+          showMessage('You need to enter a phone number', 'warning')
+          return;
+        }
+        setPerson({
+          ...person,
+          contact: {
+            ...person.contact!,
+            phones: [...(person.contact?.phones ?? []), phone],
+          },
+        });
+        setPhone('')
+    }
   
-
+    const handleEmail = () => {
+      if(email === ''){
+        showMessage('You need to enter a email', 'warning')
+        return;
+      }
+      setPerson({
+        ...person,
+        contact: {
+          ...person.contact!,
+          emails: [...(person.contact?.emails ?? []), email],
+        },
+      });
+      setEmail('')
+  }
 
 
     return ( 
@@ -74,10 +101,10 @@ function PersonEdit() {
         >
           <div className='w-100 d-flex mt-3'>
           <a className='ms-auto text-decoration-none text-dark d-block' href={`/view/${personId}`}>
-            <Button className='btn-success '>Save Contact</Button>
+            <Button
+            className='btn-success '>Save Contact</Button>
           </a>
           </div>
-
 
         <Row className='mt-5 mb-5'>
           <h4 className='mb-4'>Personal Information</h4>
@@ -130,10 +157,11 @@ function PersonEdit() {
         <Row className='mt-5 mb-5'>
           <h4 className='mb-4'>Contact Information</h4>
           <Col md={4}>
-          <Label style={{fontWeight:"bold"}}>Phone Numbers: </Label>
+          <Label for='phone' style={{fontWeight:"bold"}}>Phone Numbers: </Label>
 
           <div className='d-flex flex-row'>
             <Input 
+            id='phone'
             placeholder="Person's number"  
             className='w-75' 
             type='number'
@@ -144,17 +172,9 @@ function PersonEdit() {
             <Button 
             style={{fontSize:20, fontWeight:"bold"}} 
             className='btn-success ms-2 pe-2 ps-2 pt-0 pb-0'
-            onClick={()=> {
-              setPerson({
-                ...person,
-                contact: {
-                  ...person.contact!,
-                  phones: [...(person.contact?.phones ?? []), phone],
-                },
-              });
-              setPhone('')
-            }}
+            onClick={handlePhoneNumber}
             >+</Button>
+
           </div>
 
             <ul style={{listStyle:"none"}}>
@@ -189,10 +209,21 @@ function PersonEdit() {
 
           </Col>
           <Col md={4}>
-          <Label style={{fontWeight:"bold"}}>Emails: </Label>
+          <Label for='email' style={{fontWeight:"bold"}}>Emails: </Label>
           <div className='d-flex flex-row'>
-            <Input  placeholder="Person's email"  className='w-75' type='text'></Input>
-            <Button style={{fontSize:20, fontWeight:"bold"}} className='btn-success ms-2 pe-2 ps-2 pt-0 pb-0'>+</Button>
+            <Input  
+            id='email'
+            placeholder="Person's email"  
+            className='w-75' type='text'
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            ></Input>
+
+
+            <Button style={{fontSize:20, fontWeight:"bold"}} 
+            className='btn-success ms-2 pe-2 ps-2 pt-0 pb-0'
+            onClick={handleEmail}
+            >+</Button>
           </div>
           <ul style={{listStyle:"none"}}>
             {
@@ -316,7 +347,6 @@ function PersonEdit() {
 
           ))
         }
-
         </div>
 
 

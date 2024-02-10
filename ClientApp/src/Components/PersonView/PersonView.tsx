@@ -18,12 +18,12 @@ function PersonView() {
 
     const [person, setPerson] = useState<IPersonResponse>()
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+    const [birthday, setBirthday] = useState('');
 
     useEffect(() => {
         const handleResize = () => {
           setWindowWidth(window.innerWidth);
         };
-        console.log(personId)
         window.addEventListener('resize', handleResize);
     
         // Remove event listener when the component is unmounted
@@ -39,6 +39,7 @@ function PersonView() {
          const data = await getPerson(personId || "");
          const dataFormatted = JSON.parse(JSON.stringify(data.data));
          setPerson(dataFormatted)
+         setBirthday(new Date(dataFormatted?.birthday || 0).toISOString().split('T')[0] || "")
      } 
      fetchPerson()
      },[windowWidth])
@@ -68,7 +69,8 @@ function PersonView() {
           </Col>
           <Col md={3}>
           <span><strong>Birthday: </strong> 
-          {new Date(person?.birthday || "").toISOString().split('T')[0] || ""}</span>
+          {birthday}
+          </span>
           </Col>
         </Row>
         <hr />
