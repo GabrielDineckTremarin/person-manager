@@ -31,6 +31,10 @@ namespace ContactOrganizer.Business
 
         public async Task<PersonResponse> CreatePerson(PersonResponse person)
         {
+            var validations = await ValidatePerson(person);
+            if (validations.Count > 0)
+                throw new Exception(string.Join($";", validations));
+
             var contact = person.Contact;
             var listAddresses = person.Addresses;
             if (contact != null && String.IsNullOrEmpty(contact?.Id) || !Mongo_Utils.IsObjectId(contact?.Id))
@@ -63,7 +67,7 @@ namespace ContactOrganizer.Business
                 Birthday = person.Birthday,
                 ContactId = contact.Id,
                 AddressesIds = listAddresses?.Select(a => a.Id).ToList(),
-                Age = person.Age,
+                Age = CalculateAge(Date_Utils.GetDateOnly(person.Birthday)),
             };
             _personService.CreatePerson(dtoPerson);
             return person;
@@ -73,6 +77,10 @@ namespace ContactOrganizer.Business
         {
             try
             {
+                var validations = await ValidatePerson(person);
+                if (validations.Count > 0)
+                    throw new Exception(string.Join($";", validations));
+
                 var contact = person.Contact;
                 var listAddresses = person.Addresses;
                 if (contact != null && String.IsNullOrEmpty(contact?.Id) || !Mongo_Utils.IsObjectId(contact?.Id))
@@ -112,7 +120,7 @@ namespace ContactOrganizer.Business
                     Birthday = person.Birthday,
                     ContactId = contact.Id,
                     AddressesIds = listAddresses?.Select(a => a.Id).ToList(),
-                    Age = person.Age,
+                    Age = CalculateAge(Date_Utils.GetDateOnly(person.Birthday)),
                 };
                 _personService.UpdatePerson(dtoPerson);
             }
@@ -221,5 +229,132 @@ namespace ContactOrganizer.Business
             return peopleResponse;
         }
 
+
+        public async Task<List<string>> ValidatePerson(PersonResponse person)
+        {
+            var validations = new List<string>();
+
+            if (person == null)
+            {
+               validations.Add("Person not found");
+                return validations;
+            }
+
+            if(String.IsNullOrEmpty(person.Name))
+                validations.Add("You need to enter the person's name");
+
+            if (String.IsNullOrEmpty(person.LastName))
+                validations.Add("You need to enter the person's last name");
+
+            if (person?.Birthday == DateTime.MinValue || person?.Birthday == DateTime.MaxValue)
+                validations.Add("You need to enter a valid birthday");
+
+            if(CalculateAge(Date_Utils.GetDateOnly(person.Birthday)) < 15)
+                validations.Add("You need to be at least 15 years old");
+
+            if (person.Contact == null) {
+                validations.Add("You need to fill out the Contact Information form");
+                return validations;
+            }
+
+            if(person.Contact.Emails == null || person.Contact.Emails?.Count == 0)
+            {
+                validations.Add("You need to enter at least one email");
+            }
+            else if(person.Contact.Emails != null && person.Contact.Emails?.Count > 0)
+            {
+                foreach(var email in person.Contact.Emails)
+                {
+                    if (!StringUtils.IsEmailValid(email))
+                        validations.Add($"The email {email} is not valid!");
+                }
+            }
+
+            if (person.Contact.Phones == null || person.Contact.Phones?.Count == 0)
+            {
+                validations.Add("You need to enter at least one phone number");
+            }
+            else if (person.Contact.Phones != null || person.Contact.Phones?.Count > 0)
+            {
+                foreach(var phone in person.Contact.Phones)
+                {
+                    if (!StringUtils.IsPhoneValid(phone))
+                    {
+                        validations.Add($"The number {phone} is not valid!");
+                    }
+                }
+            }
+
+            if(person.Contact.SocialMedia != null)
+            {
+                foreach (var s in person.Contact.SocialMedia)
+                {
+                    if (
+                        (String.IsNullOrEmpty(s.MediaName) && !String.IsNullOrEmpty(s.Username)) ||
+                        (!String.IsNullOrEmpty(s.MediaName) && String.IsNullOrEmpty(s.Username))
+                      )
+                    {
+                        validations.Add("You need to select a social media and enter a username");
+                        break;
+                    }
+
+                    if (String.IsNullOrEmpty(s.MediaName))
+                        validations.Add("You need to select a social media");
+
+                    if (String.IsNullOrEmpty(s.Username))
+                        validations.Add("You need to enter a username for a social media");
+                }
+
+            }
+
+            if(person.Addresses != null)
+            {
+                if(person.Addresses.Count <= 0)
+                {
+                    validations.Add("You need to add at least one address");
+                }
+                else
+                {
+                    foreach (var address in person.Addresses)
+                    {
+                        var subValidation = new List<string>();
+
+                        if (String.IsNullOrEmpty(address.Country) ||
+                            String.IsNullOrEmpty(address.State) ||
+                            String.IsNullOrEmpty(address.Street) ||
+                            String.IsNullOrEmpty(address.City) ||
+                            String.IsNullOrEmpty(address.PostalCode))
+                        {
+                            validations.Add("You need to fill out all the fields in the Addres Information section");
+                            break;
+                        }
+
+                    }
+                }
+            } 
+            else
+            {
+                validations.Add("You need to add at least one address");
+            }
+
+
+            return validations;
+        }
+
+
+        static int CalculateAge(DateTime birthdate)
+        {
+            DateTime currentDate = DateTime.Now;
+            int age = currentDate.Year - birthdate.Year;
+
+            // Se nasceu nesse ano, nao subtrai, mas eu vou validar
+            // se o cara tem mais de 18
+            if (birthdate.Date > currentDate.AddYears(-age))
+            {
+                age--;
+            }
+
+            return age;
+        }
     }
 }

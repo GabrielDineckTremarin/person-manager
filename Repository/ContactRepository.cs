@@ -36,7 +36,7 @@ namespace ContactOrganizer.Repository
 
         public void UpdateContact(DtoContact contact)
         {
-            var filter = Builders<DtoContact>.Filter.Eq("_id", contact.Id);
+            var filter = Builders<DtoContact>.Filter.Eq("_id", new ObjectId(contact.Id));
             var update = Builders<DtoContact>.Update
                 .Set(x => x.Phones, contact.Phones)
                 .Set(x => x.Emails, contact.Emails)

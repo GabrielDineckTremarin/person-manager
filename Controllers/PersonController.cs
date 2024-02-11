@@ -41,7 +41,7 @@ namespace ContactOrganizer.Controllers
             }
             catch (Exception ex)
             {
-                return new Response() { Data = ex, Message = ex.Message, Success = false };
+                return new Response() { Data = null, Message = ex.Message, Success = false };
             }
         }
 
@@ -56,7 +56,7 @@ namespace ContactOrganizer.Controllers
             }
             catch (Exception ex)
             {
-                return new Response() { Data = ex, Message = ex.Message, Success = false };
+                return new Response() { Data = null, Message = ex.Message, Success = false };
             }
         }
 
@@ -74,7 +74,7 @@ namespace ContactOrganizer.Controllers
             }
             catch (Exception ex)
             {
-                return new Response() { Data = ex, Message = ex.Message, Success = false };
+                return new Response() { Data = null, Message = ex.Message, Success = false };
 
             }
 
@@ -91,7 +91,7 @@ namespace ContactOrganizer.Controllers
             }
             catch (Exception ex)
             {
-                return new Response() { Data = ex, Message = ex.Message, Success = false };
+                return new Response() { Data = null, Message = ex.Message, Success = false };
             }
         }
 
@@ -107,7 +107,7 @@ namespace ContactOrganizer.Controllers
             }
             catch (Exception ex)
             {
-                return new Response() { Data = ex, Message = ex.Message, Success = false };
+                return new Response() { Data = null, Message = ex.Message, Success = false };
 
             }
 

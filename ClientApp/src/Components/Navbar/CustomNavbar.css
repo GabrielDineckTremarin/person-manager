@@ -12,3 +12,17 @@
     
   }
 
+#navbar-brand {
+  font-size:23px; 
+  font-weight:500;
+  border:2px solid #ffffff;
+}
+
+#custom-navbar .nav-item .navlink {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+#custom-navbar .nav-item:hover {
+  opacity: 0.7;
+}

@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'; 
 import {Row, Col, Button, Label, Input, Modal} from 'reactstrap'
 import DeleteIcon from '../../assets/icons/delete2.svg'
+import QuestionMarkIcon from '../../assets/icons/question-mark.svg'
+
 import { getPerson, createPerson, updatePerson, deletePerson } from '../../ApiService/ApiService'; 
 import { IPersonResponse } from '../../Interfaces/IPersonResponse';
 import { useParams, useNavigate  } from "react-router-dom";
@@ -9,6 +11,7 @@ import { IContactSocialMedia } from "../../Interfaces/IContact";
 import { IAddress } from "../../Interfaces/IAddress";
 import { showMessage }from '../../Utils/utils'
 import DeleteModal from '../DeleteModal/DeleteModal';
+import { Tooltip } from 'react-tooltip';
 
 
 
@@ -65,7 +68,8 @@ function PersonEdit() {
          setPerson(dataFormatted)
          setPersonBirthday(new Date(dataFormatted?.birthday).toISOString().split('T')[0])   
      } 
-     fetchPerson()
+
+     if(personId != "new")fetchPerson()
      },[windowWidth])
 
      useEffect(() => {
@@ -75,7 +79,7 @@ function PersonEdit() {
     const reload = () => {
       setTimeout(()=> {
         window.location.href = `/list`
-      },2000)
+      },1000)
   }
 
     const handlePhoneNumber = () => {
@@ -174,11 +178,17 @@ const handleNewPerson = async ()  => {
               window.location.reload()
             }
             
-          },2000)
+          },1000)
+        } else {
+          const messages = data.message.split(";")
+          messages.forEach(msg => {
+            showMessage(`${msg}`, "error", 5000)
+          })
         }
       }
       catch(err) {
-        showMessage("Error", "error")
+        console.log(err)
+        showMessage("Something unexpected happened :(", "error")
       }
 }
 
@@ -189,6 +199,13 @@ const handleNewPerson = async ()  => {
         id='container-list-contacts'
         className={` w-75 m-auto`}
         >
+      <Tooltip id="phone-tooltip"></Tooltip>
+      <Tooltip id="email-tooltip"></Tooltip>
+      <Tooltip id="social-media-tooltip"></Tooltip>
+      <Tooltip id="address-tooltip"></Tooltip>
+
+
+
           <div className='w-100 d-flex mt-3'>
 
             <Button
@@ -208,18 +225,18 @@ const handleNewPerson = async ()  => {
 
         <Row className='mt-5 mb-5'>
           <h4 className='mb-4'>Personal Information</h4>
-          <Col md={3}>
+          <Col md={4}>
           <Label for='firstName' style={{fontWeight:"bold"}}>First Name: </Label>
             <Input
             id='firstName'
              placeholder="Person's first name" 
              type='text'
-             value={person.name}
+             value={person?.name }
              onChange={(e)=> {setPerson({ ...person, name: e.target.value })}}
 
              ></Input>
           </Col>
-          <Col md={3}>
+          <Col md={4}>
           <Label for='lastName' style={{fontWeight:"bold"}}>Last Name: </Label>
             <Input
             id='lastName' 
@@ -229,16 +246,8 @@ const handleNewPerson = async ()  => {
              onChange={(e)=> {setPerson({ ...person, lastName: e.target.value })}}
              ></Input>
           </Col>
-          <Col md={3}>
-          <Label for='age' placeholder="Person's age" style={{fontWeight:"bold"}}>Age: </Label>
-          <Input id='age' 
-          value={person.age} 
-          type='number'
-          onChange={(e)=> {setPerson({ ...person, age: parseInt(e.target.value) })}}
-          ></Input>
 
-          </Col>
-          <Col md={3}>
+          <Col md={4}>
           <Label for='birthday' placeholder="Person's birthday" style={{fontWeight:"bold"}}>Birthday: </Label>
           <Input 
           id='birthday' 
@@ -257,7 +266,15 @@ const handleNewPerson = async ()  => {
         <Row className='mt-5 mb-5'>
           <h4 className='mb-4'>Contact Information</h4>
           <Col md={4}>
-          <Label for='phone' style={{fontWeight:"bold"}}>Phone Numbers: </Label>
+          <Label for='phone' style={{fontWeight:"bold"}}>
+            <img src={QuestionMarkIcon}
+            className='mb-1 me-1'
+            width={19}
+            data-tooltip-id="phone-tooltip"
+            data-tooltip-place="top"
+            data-tooltip-html="Enter a phone number and click the '+' button"
+          /> Phone Numbers: 
+          </Label>
 
           <div className='d-flex flex-row'>
             <Input 
@@ -309,7 +326,17 @@ const handleNewPerson = async ()  => {
 
           </Col>
           <Col md={4}>
-          <Label for='email' style={{fontWeight:"bold"}}>Emails: </Label>
+          <Label for='email' 
+          style={{fontWeight:"bold"}}>
+            <img src={QuestionMarkIcon}
+              className='mb-1 me-1'
+              width={19}
+              data-tooltip-id="email-tooltip"
+              data-tooltip-place="top"
+              data-tooltip-html="Enter an email and click the '+' button"
+            />
+            
+            Emails: </Label>
           <div className='d-flex flex-row'>
             <Input  
             id='email'
@@ -356,7 +383,16 @@ const handleNewPerson = async ()  => {
 
           </Col>
           <Col md={4}>
-          <Label style={{fontWeight:"bold"}}>Social Media: </Label>
+          <Label style={{fontWeight:"bold"}}>
+            <img src={QuestionMarkIcon}
+              className='mb-1 me-1'
+              width={19}
+              data-tooltip-id="social-media-tooltip"
+              data-tooltip-place="top"
+              data-tooltip-html="Select a social media and enter your username in the chosen social media, then click the '+' button"
+            />
+            
+            Social Media: </Label>
           <div className='d-flex flex-row'>
             <Input 
             className='w-75' 
@@ -418,7 +454,16 @@ const handleNewPerson = async ()  => {
 
 
         <hr />
-        <h4 className='mb-4 mt-5'>Address Information</h4>
+        <span className='d-block mb-4 mt-5'>
+        <img src={QuestionMarkIcon}
+              className='mb-1 me-1'
+              width={19}
+              data-tooltip-id="address-tooltip"
+              data-tooltip-place="top"
+              data-tooltip-html="Fill out all the fields and  then click the '+' button<br/> to add an address to the address list"
+            />
+          <h4 className=' d-inline'>Address Information</h4>
+        </span>
         <Row className='mt-0 mb-5'>
             <h5 className='mb-3'>New Address </h5>
             <Col md={2}>

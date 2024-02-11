@@ -8,6 +8,7 @@ import DeleteIcon from '../../assets/icons/delete.svg'
 import { getPeopleList  } from '../../ApiService/ApiService'; 
 import { IPersonResponse } from '../../Interfaces/IPersonResponse';
 import DeleteModal from '../DeleteModal/DeleteModal';
+import { Tooltip } from 'react-tooltip';
 
 function PeopleList() {
 
@@ -17,7 +18,7 @@ function PeopleList() {
     const [personId, setPersonId] = useState('')
     
     const reload = () => {
-        setTimeout(()=> {window.location.reload()},2000)
+        setTimeout(()=> {window.location.reload()},1000)
     }
 
 
@@ -58,6 +59,12 @@ function PeopleList() {
         id='container-list-contacts'
         className={`${windowWidth < 800 ?  'me-3 ms-3': 'w-75'}  m-auto mt-5`}
         >
+
+        <Tooltip id='delete-tooltip'></Tooltip>
+        <Tooltip id='edit-tooltip'></Tooltip>
+
+
+
         <div className='mb-5' style={{display:"flex", flexDirection: "row"}}>
             <h1 >Contacts</h1>
             <a className='ms-auto text-decoration-none text-dark d-block' href={`/edit/new`}>
@@ -78,7 +85,7 @@ function PeopleList() {
                 >
                 <span
                 style={{fontSize:`${windowWidth > 700 ? "25px" : "16px"}`}}
-                >{person.name}</span>
+                >{person.fullName}</span>
     
                 </a>
                 </Col>
@@ -86,7 +93,13 @@ function PeopleList() {
                     <div style={{width:60, marginLeft:"auto"}}>
                     <a href={`/edit/${person.id}`}>
                         <Button  className='btn btn-light p-0 me-2'>
-                            <img width={20} src={EditIcon} alt="Edit Icon" />
+                            <img
+                             width={20}
+                              src={EditIcon}
+                               alt="Edit Icon"
+                               data-tooltip-id="edit-tooltip"
+                               data-tooltip-place="top"
+                               data-tooltip-html="Click here to edit this contact" />
                         </Button>
                     </a>
                     <Button 
@@ -95,8 +108,14 @@ function PeopleList() {
                         toggleDeleteModal()
                     }}
                     className='btn-light p-0'>
-                        <img width={20} src={DeleteIcon} alt="Delete Icon" />
-                </Button>
+                        <img 
+                        width={20} 
+                        src={DeleteIcon} 
+                        alt="Delete Icon"
+                        data-tooltip-id="delete-tooltip"
+                        data-tooltip-place="top"
+                        data-tooltip-html="Click here to delete this contact" />
+                    </Button>
                     </div>
     
                 </Col>

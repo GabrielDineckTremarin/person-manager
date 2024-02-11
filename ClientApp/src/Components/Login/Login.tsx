@@ -18,7 +18,6 @@ const Login: React.FC = () => {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    // Add your login logic here
     console.log('Logging in with:', credentials);
   };
 
@@ -73,6 +72,10 @@ const Login: React.FC = () => {
         </div>
         <button style={{ width:"100px"}}  type="submit" className="btn btn-primary mt-2 m-auto">Login</button>
       </form>
+
+
+
+
     </div>
     
   );
