@@ -18,28 +18,13 @@ Person-Manager is an educational project aimed at creating a simple full-stack w
   - CSS
   - TypeScript
   - React
+  - Bootstrap
 
 - **Backend:**
   - C# (ASP.NET Core)
   - MongoDB
 
-## Getting Started
-
-To set up the project locally, follow these steps:
-
-1. Clone the repository: `git clone https://github.com/GabrielDineckTremarin/person-manager.git` <br>
-2. Navigate to the project directory: `cd person-manager` <br>
-3. Set up the frontend and backend components according to the project(url) structure. <br>
-
-## Usage
-
-1. Run the application.
-2. Access the application through a web browser.
-3. Perform CRUD operations to manage person information.
-
-## Contributing
-
-Contributions are welcome! If you'd like to contribute to the project, please follow the [Contributing Guidelines](CONTRIBUTING.md).
+[Click here to see the live demo](https://contact-maganer-gdt.netlify.app/)
 
 ## License
 
