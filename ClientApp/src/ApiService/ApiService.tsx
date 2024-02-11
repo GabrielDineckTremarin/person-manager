@@ -2,7 +2,7 @@
 import { IPersonResponse } from '../Interfaces/IPersonResponse';
 import axiosConfig from './AxiosConfig';
 
-const BaseURL: string = "https://localhost:3000"
+// const BaseURL: string = "https://localhost:3000"
 
 interface ApiData {
     message: string;

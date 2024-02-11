@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'; 
-import {Row, Col, Button, Label, Input, Modal} from 'reactstrap'
+import {Row, Col, Button, Label, Input } from 'reactstrap'
 import DeleteIcon from '../../assets/icons/delete2.svg'
 import QuestionMarkIcon from '../../assets/icons/question-mark.svg'
 
-import { getPerson, createPerson, updatePerson, deletePerson } from '../../ApiService/ApiService'; 
+import { getPerson, createPerson, updatePerson } from '../../ApiService/ApiService'; 
 import { IPersonResponse } from '../../Interfaces/IPersonResponse';
 import { useParams, useNavigate  } from "react-router-dom";
 import { IContactSocialMedia } from "../../Interfaces/IContact";

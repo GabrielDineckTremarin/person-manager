@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import  { useState, useEffect } from 'react'
 
 import 'bootstrap/dist/css/bootstrap.min.css'; 
-import {Row, Col, Button, Modal } from 'reactstrap'
+import {Row, Col, Button } from 'reactstrap'
 
 import EditIcon from '../../assets/icons/edit.svg'
 import DeleteIcon from '../../assets/icons/delete.svg'
