@@ -35,7 +35,8 @@ namespace ContactOrganizer.Repository
 
         public void UpdatePerson(DtoPerson person)
         {
-            var filter = Builders<DtoPerson>.Filter.Eq("_id", person.Id);
+            var filter = Builders<DtoPerson>.Filter.Eq("_id", new ObjectId(person.Id));
+
             var update = Builders<DtoPerson>.Update
                 .Set(p => p.Name, person.Name)
                 .Set(p => p.LastName, person.LastName)
@@ -44,7 +45,10 @@ namespace ContactOrganizer.Repository
                 .Set(p => p.Age, person.Age)
                 .Set(p => p.ContactId, person.ContactId)
                 .Set(p => p.AddressesIds, person.AddressesIds);
+
+            _personCollection.UpdateOne(filter, update);
         }
+
 
         public void DeletePerson(string personId)
         {

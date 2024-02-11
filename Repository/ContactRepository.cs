@@ -41,7 +41,10 @@ namespace ContactOrganizer.Repository
                 .Set(x => x.Phones, contact.Phones)
                 .Set(x => x.Emails, contact.Emails)
                 .Set(x => x.SocialMedia, contact.SocialMedia);
- 
+
+            _contactCollection.UpdateOne(filter, update);
+
+
 
         }
         public void DeleteContact(string contactId)

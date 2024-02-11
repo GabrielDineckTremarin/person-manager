@@ -42,6 +42,9 @@ namespace ContactOrganizer.Repository
                 .Set(x => x.PostalCode, address.PostalCode)
                 .Set(x => x.Country, address.Country);
 
+            _addressCollection.UpdateOne(filter, update);
+
+
 
         }
 

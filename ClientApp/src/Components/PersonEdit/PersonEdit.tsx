@@ -1,17 +1,14 @@
-import React, { useState, useEffect } from 'react'
-
+import { useState, useEffect } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'; 
-import {Row, Col, Button, Label, Input, FormGroup } from 'reactstrap'
-
+import {Row, Col, Button, Label, Input, Modal} from 'reactstrap'
 import DeleteIcon from '../../assets/icons/delete2.svg'
-import { getPerson, createPerson } from '../../ApiService/ApiService'; 
+import { getPerson, createPerson, updatePerson, deletePerson } from '../../ApiService/ApiService'; 
 import { IPersonResponse } from '../../Interfaces/IPersonResponse';
-import { useParams } from "react-router-dom";
-import { IContact, IContactSocialMedia } from "../../Interfaces/IContact";
+import { useParams, useNavigate  } from "react-router-dom";
+import { IContactSocialMedia } from "../../Interfaces/IContact";
 import { IAddress } from "../../Interfaces/IAddress";
 import { showMessage }from '../../Utils/utils'
-
-
+import DeleteModal from '../DeleteModal/DeleteModal';
 
 
 
@@ -22,6 +19,7 @@ function PersonEdit() {
     const [email, setEmail] = useState<string>('')
     const [mediaName, setMediaName] = useState<string>('')
     const [username, setUsername] = useState<string>('')
+    const [openDeleteModal, setOpenDeleteModal] = useState(false)
 
 
     const [address, setAddress] = useState<IAddress>({
@@ -46,7 +44,7 @@ function PersonEdit() {
 
     })
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-
+    const navigate = useNavigate()
     useEffect(() => {
         const handleResize = () => {
           setWindowWidth(window.innerWidth);
@@ -73,6 +71,12 @@ function PersonEdit() {
      useEffect(() => {
 
     },[person])
+
+    const reload = () => {
+      setTimeout(()=> {
+        window.location.href = `/list`
+      },2000)
+  }
 
     const handlePhoneNumber = () => {
         if(phone === ''){
@@ -148,13 +152,29 @@ const handleSocialMedia= () => {
   setUsername('');
   setMediaName('');
 }
+const toggleDeleteModal = () => {
+  setOpenDeleteModal(!openDeleteModal)
+}
 
 const handleNewPerson = async ()  => {
       try {
-        var data = await createPerson(person);
+        const data = 
+        personId === "new" || personId === "" ?
+          await createPerson(person) :
+          await updatePerson(person)
+
 
         if(data.success){
-          showMessage("Contact created successfully", "success")
+          showMessage(`${data.message}`, "success")
+          setTimeout(()=> {
+            if(personId === "new" || personId === "" ){
+
+              window.location.href = `/edit/${data.data.id}`
+            }else {
+              window.location.reload()
+            }
+            
+          },2000)
         }
       }
       catch(err) {
@@ -163,18 +183,27 @@ const handleNewPerson = async ()  => {
 }
 
 
+
     return ( 
         <div
         id='container-list-contacts'
         className={` w-75 m-auto`}
         >
           <div className='w-100 d-flex mt-3'>
-          <a className='ms-auto text-decoration-none text-dark d-block' href={`/view/${personId}`}>
+
             <Button
-            className='btn-success '
+            className='btn-success ms-auto'
             onClick={handleNewPerson}
             >Save Contact</Button>
-          </a>
+          
+            {
+              personId != "" && personId != "new" &&
+              <Button
+              className='btn-danger ms-2'
+              onClick={toggleDeleteModal}
+              >Delete Contact</Button>
+            }
+
           </div>
 
         <Row className='mt-5 mb-5'>
@@ -531,6 +560,9 @@ const handleNewPerson = async ()  => {
 
           ))
         }
+        <DeleteModal isOpen={openDeleteModal} toggleModal={toggleDeleteModal} personId={personId ?? ""} reloadWindow={reload}/>
+
+
         </div>
 
 

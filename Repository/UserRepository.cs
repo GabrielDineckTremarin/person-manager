@@ -44,6 +44,9 @@ namespace ContactOrganizer.Repository
                 .Set(x => x.Password, user.Password)
                 .Set(x => x.Email, user.Email);
 
+            _userCollection.UpdateOne(filter, update);
+
+
         }
         public void DeleteUser(string userId)
         {

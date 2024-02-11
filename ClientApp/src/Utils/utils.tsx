@@ -12,8 +12,8 @@ import 'react-toastify/dist/ReactToastify.css';
          'success' :
          typeMsg === 'error' ? 'error' : 'warning'
         const toastOptions: ToastOptions = {
-          position: 'top-right', 
-          autoClose: 3000, 
+          position: 'bottom-right', 
+          autoClose: 2000, 
           closeButton: true, 
           style: {
             background: type === 'success' ? '#4CAF50' : type === 'error' ? '#f44336' : '#FFC107',

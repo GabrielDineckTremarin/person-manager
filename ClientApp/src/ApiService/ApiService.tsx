@@ -5,7 +5,7 @@ import axiosConfig from './AxiosConfig';
 const BaseURL: string = "https://localhost:3000"
 
 interface ApiData {
-    message: String;
+    message: string;
     success: boolean;
     data: any;
 }
@@ -34,6 +34,28 @@ export const getPerson = async (id: string): Promise<ApiData>  => {
 
 export const createPerson = async (person: IPersonResponse): Promise<ApiData>  => {
     const response = await axiosConfig.post(`/Person/create-person`, person);
+
+    const apiData: ApiData = {
+        message: response.data.message,
+        success: response.data.success,
+        data: response.data.data,
+    };
+    return apiData;
+}
+
+export const updatePerson = async (person: IPersonResponse): Promise<ApiData>  => {
+    const response = await axiosConfig.put(`/Person/update-person`, person);
+
+    const apiData: ApiData = {
+        message: response.data.message,
+        success: response.data.success,
+        data: response.data.data,
+    };
+    return apiData;
+}
+
+export const deletePerson = async (personId: string): Promise<ApiData>  => {
+    const response = await axiosConfig.delete(`/Person/delete-person/${personId}`);
 
     const apiData: ApiData = {
         message: response.data.message,

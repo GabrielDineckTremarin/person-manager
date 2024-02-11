@@ -33,18 +33,14 @@ namespace ContactOrganizer.Business
         {
             var contact = person.Contact;
             var listAddresses = person.Addresses;
-
             if (contact != null && String.IsNullOrEmpty(contact?.Id) || !Mongo_Utils.IsObjectId(contact?.Id))
             {
                 contact.Id = ObjectId.GenerateNewId().ToString();
-                _contactService.CreateContact(contact);
-
             }
-
+            _contactService.CreateContact(contact);
 
             if (listAddresses != null)
             {
-
                 for(int i = 0; i < listAddresses.Count; i++)
                 {
                     var address = listAddresses[i];
@@ -55,11 +51,12 @@ namespace ContactOrganizer.Business
                     }
                     _addressService.CreateAddress(address);
                 }
-
             }
 
+            person.Id = ObjectId.GenerateNewId().ToString();
             var dtoPerson = new DtoPerson()
             {
+                Id = person.Id,
                 Name = person.Name,
                 LastName = person.LastName,
                 FullName = $"{person.Name} {person.LastName}",
@@ -69,19 +66,97 @@ namespace ContactOrganizer.Business
                 Age = person.Age,
             };
             _personService.CreatePerson(dtoPerson);
-
             return person;
+        }
+
+        public async Task<PersonResponse> UpdatePerson(PersonResponse person)
+        {
+            try
+            {
+                var contact = person.Contact;
+                var listAddresses = person.Addresses;
+                if (contact != null && String.IsNullOrEmpty(contact?.Id) || !Mongo_Utils.IsObjectId(contact?.Id))
+                {
+                    contact.Id = ObjectId.GenerateNewId().ToString();
+                    _contactService.CreateContact(contact);
+                }
+                else
+                {
+                    _contactService.UpdateContact(contact);
+                }
+
+                if (listAddresses != null)
+                {
+                    for (int i = 0; i < listAddresses.Count; i++)
+                    {
+                        var address = listAddresses[i];
+                        if (String.IsNullOrEmpty(address?.Id) || !Mongo_Utils.IsObjectId(address?.Id))
+                        {
+                            address.Id = ObjectId.GenerateNewId().ToString();
+                            listAddresses[i] = address;
+                            _addressService.CreateAddress(address);
+                        }
+                        else
+                        {
+                            _addressService.UpdateAddress(address);
+                        }
+                    }
+                }
+
+                var dtoPerson = new DtoPerson()
+                {
+                    Id = person.Id,
+                    Name = person.Name,
+                    LastName = person.LastName,
+                    FullName = $"{person.Name} {person.LastName}",
+                    Birthday = person.Birthday,
+                    ContactId = contact.Id,
+                    AddressesIds = listAddresses?.Select(a => a.Id).ToList(),
+                    Age = person.Age,
+                };
+                _personService.UpdatePerson(dtoPerson);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return person;
+        }
+
+        public async Task<DtoPerson> DeletePerson(string  personId)
+        {
+            try
+            {
+                var person = _personService.GetPersonById(personId);
+
+                if (person == null)
+                    throw new Exception("Person not found");
+
+                if(!String.IsNullOrEmpty(person?.ContactId) && Mongo_Utils.IsObjectId(person?.ContactId))
+                    _contactService.DeleteContact(person?.ContactId);
+
+                if(person.AddressesIds != null)
+                    person?.AddressesIds?.ForEach(addr => _addressService.DeleteAddress(addr));
+
+                _personService.DeletePerson(personId);
+
+                return person;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public async Task<object> GetPersonById(string id)
         {
             if (String.IsNullOrEmpty(id) || !Mongo_Utils.IsObjectId(id))
-                throw new Exception("Id inválido");
+                throw new Exception("Invalid id");
 
             var person = _personService.GetPersonById(id);
 
             if(person == null)
-                throw new Exception("Contato não encontrado");
+                throw new Exception("Person not found");
 
             var addressesList = new List<DtoAddress>();
             person.AddressesIds.ForEach(id =>
@@ -111,7 +186,7 @@ namespace ContactOrganizer.Business
             var people = _personService.GetAllPeople();
 
             if (people == null || people.Count == 0)
-                throw new Exception("Parece que não há contatos cadastrados");
+                throw new Exception("It seems there are no people registered");
 
             var peopleResponse = new List<PersonResponse>();
 

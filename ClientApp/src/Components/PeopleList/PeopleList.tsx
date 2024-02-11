@@ -1,20 +1,29 @@
 import React, { useState, useEffect } from 'react'
 
 import 'bootstrap/dist/css/bootstrap.min.css'; 
-import {Row, Col, Button } from 'reactstrap'
+import {Row, Col, Button, Modal } from 'reactstrap'
 
 import EditIcon from '../../assets/icons/edit.svg'
 import DeleteIcon from '../../assets/icons/delete.svg'
 import { getPeopleList  } from '../../ApiService/ApiService'; 
 import { IPersonResponse } from '../../Interfaces/IPersonResponse';
-
-// import CustomNavbar from './Components/Navbar/CustomNavbar';
+import DeleteModal from '../DeleteModal/DeleteModal';
 
 function PeopleList() {
 
     const [people, setPeople] = useState<IPersonResponse[]>([])
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+    const [openDeleteModal, setOpenDeleteModal] = useState(false)
+    const [personId, setPersonId] = useState('')
+    
+    const reload = () => {
+        setTimeout(()=> {window.location.reload()},2000)
+    }
 
+
+    const toggleDeleteModal = () => {
+        setOpenDeleteModal(!openDeleteModal)
+    }
 
     useEffect(() => {
         const handleResize = () => {
@@ -80,7 +89,12 @@ function PeopleList() {
                             <img width={20} src={EditIcon} alt="Edit Icon" />
                         </Button>
                     </a>
-                    <Button  className='btn-light p-0'>
+                    <Button 
+                    onClick={()=> {
+                        setPersonId(person.id)
+                        toggleDeleteModal()
+                    }}
+                    className='btn-light p-0'>
                         <img width={20} src={DeleteIcon} alt="Delete Icon" />
                 </Button>
                     </div>
@@ -90,6 +104,7 @@ function PeopleList() {
             ))
         }
        
+       <DeleteModal isOpen={openDeleteModal} toggleModal={toggleDeleteModal} personId={personId} reloadWindow={reload}/>
         </div>
 
 

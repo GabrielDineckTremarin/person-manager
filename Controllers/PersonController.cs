@@ -37,15 +37,27 @@ namespace ContactOrganizer.Controllers
             try
             {
                 var result = await _blPerson.CreatePerson(person);
-
-                return new Response() { Data = result, Message = String.Empty, Success = true };
+                return new Response() { Data = result, Message = "Person registered successfully", Success = true };
             }
             catch (Exception ex)
             {
                 return new Response() { Data = ex, Message = ex.Message, Success = false };
-
             }
+        }
 
+        [HttpPut]
+        [Route("update-person")]
+        public async Task<object> UpdatePerson([FromBody] PersonResponse person)
+        {
+            try
+            {
+                var result = await _blPerson.UpdatePerson(person);
+                return new Response() { Data = result, Message = "Person updated successfully", Success = true };
+            }
+            catch (Exception ex)
+            {
+                return new Response() { Data = ex, Message = ex.Message, Success = false };
+            }
         }
 
 
@@ -68,6 +80,20 @@ namespace ContactOrganizer.Controllers
 
         }
 
+        [HttpDelete]
+        [Route("delete-person/{personId}")]
+        public async Task<object> DeletePerson([FromRoute] string personId)
+        {
+            try
+            {
+                var result = await _blPerson.DeletePerson(personId);
+                return new Response() { Data = result, Message = "Person deleted successfully", Success = true };
+            }
+            catch (Exception ex)
+            {
+                return new Response() { Data = ex, Message = ex.Message, Success = false };
+            }
+        }
 
         [HttpGet]
         [Route("get-list-of-people")]
