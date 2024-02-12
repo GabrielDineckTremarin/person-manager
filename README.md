@@ -21,7 +21,7 @@ This application is a practical learning experience focused on creating a simple
   - Bootstrap
 
 - **Backend:**
-  - C# (ASP.NET Core)
+  - C# (.NET Core)
   - MongoDB
 
 ## Dependencies
@@ -29,7 +29,7 @@ This application is a practical learning experience focused on creating a simple
 - [MongoDB.Driver](https://www.nuget.org/packages/MongoDB.Driver/) v2.23.1
 - [MongoDB.Driver.Core](https://www.nuget.org/packages/MongoDB.Driver.Core/) v2.23.1
 - [MongoRepository](https://www.nuget.org/packages/MongoRepository/) v1.6.11
-- [dotnet](https://dotnet.microsoft.com/download/dotnet) v7.0.
+- [.NET](https://dotnet.microsoft.com/download/dotnet) v7.0.
 - [MongoDB Community Server](https://www.mongodb.com/try/download/community)v7.0.5
 
 ## Getting Started
