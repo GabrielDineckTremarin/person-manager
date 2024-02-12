@@ -19,7 +19,8 @@ namespace ContactOrganizer.Repository
                     .Build();
 
                 var databaseName = configuration.GetSection("DatabaseName").Value;
-                var connectionString = configuration.GetConnectionString("db1");
+                //var connectionString = configuration.GetConnectionString("LocalUrl");
+                var connectionString = configuration.GetConnectionString("ProductionUrl");
 
                 var mongoClient = new MongoClient(connectionString);
                 _database = mongoClient.GetDatabase(databaseName);
