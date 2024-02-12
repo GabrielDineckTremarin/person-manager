@@ -16,6 +16,8 @@ function PeopleList() {
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
     const [openDeleteModal, setOpenDeleteModal] = useState(false)
     const [personId, setPersonId] = useState('')
+
+    const peopleMockedData: string[] = ['Gabriel Dineck Tremarin', 'Silvio Santos', 'Rita Lee']
     
     const reload = () => {
         setTimeout(()=> {window.location.reload()},1000)
@@ -74,25 +76,23 @@ function PeopleList() {
 
 
         {
-            people != null  &&
-            people.map((person, index) => (
+            peopleMockedData.map((person, index) => (
                 <Row  
                 className='m-auto mt-2 border rounded pt-2 pb-2'>
                 <Col xs={9}>
                 <a  
-                href={`view/${person.id}`} 
+                href="#"
                 id='custom-link-list'
                 className="text-decoration-none text-dark d-block  pe-1 ps-1 rounded"
                 >
                 <span
                 style={{fontSize:`${windowWidth > 700 ? "25px" : "16px"}`}}
-                >{person.fullName}</span>
-    
+                >{person}</span>
                 </a>
                 </Col>
                 <Col xs={3} className='mt-auto mb-auto'>
                     <div style={{width:60, marginLeft:"auto"}}>
-                    <a href={`/edit/${person.id}`}>
+                    <a href="#">
                         <Button  className='btn btn-light p-0 me-2'>
                             <img
                              width={20}
@@ -103,26 +103,21 @@ function PeopleList() {
                                data-tooltip-html="Click here to edit this contact" />
                         </Button>
                     </a>
-                    <Button 
-                    onClick={()=> {
-                        setPersonId(person.id)
-                        toggleDeleteModal()
-                    }}
-                    className='btn-light p-0'>
+                    <Button className='btn-light p-0'>
                         <img 
                         width={20} 
                         src={DeleteIcon} 
                         alt="Delete Icon"
                         data-tooltip-id="delete-tooltip"
                         data-tooltip-place="top"
-                        data-tooltip-html="Click here to delete this contact" />
+                        data-tooltip-html="Click here to delete this contact"
+                        onClick={()=> setOpenDeleteModal(!openDeleteModal)}
+                        />
                     </Button>
                     </div>
-    
                 </Col>
             </Row>
-            ))
-        }
+        ))}
        
        <DeleteModal isOpen={openDeleteModal} toggleModal={toggleDeleteModal} personId={personId} reloadWindow={reload}/>
         </div>

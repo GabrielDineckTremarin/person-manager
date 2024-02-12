@@ -188,7 +188,7 @@ const handleNewPerson = async ()  => {
       }
       catch(err) {
         console.log(err)
-        showMessage("Something unexpected happened :(", "error")
+        showMessage("Unfortunately, the backend isn't deployed", "warning")
       }
 }
 

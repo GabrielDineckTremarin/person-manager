@@ -46,7 +46,8 @@ interface DeleteModalProps {
         <Col md={12} className='text-center pb-5'>
         <Button 
         className='btn-success me-2'
-        onClick={handleDeletePerson}
+        // onClick={handleDeletePerson}
+        onClick={()=> showMessage("Unfortunately, the backend isn't deployed","warning")}
         >Yes</Button>                
         <Button
             className='btn-danger ms-2'
