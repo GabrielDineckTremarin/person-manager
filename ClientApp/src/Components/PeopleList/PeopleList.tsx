@@ -72,6 +72,7 @@ function PeopleList() {
             </a>
         </div>
 
+
         {
             people != null  &&
             people.map((person, index) => (
